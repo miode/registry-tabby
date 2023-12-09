@@ -89,3 +89,23 @@
   urls:
   - https://huggingface.co/TheBloke/deepseek-coder-6.7B-base-GGUF/resolve/main/deepseek-coder-6.7b-base.Q8_0.gguf
   sha256: a2f82242ac5e465037cbf1ed754f04f0be044ee196e1589905f9e4dcd0e6559d
+
+- name: Magicoder-S-DS-6.7B-Q5_K_M
+  <<: &magicoder-series
+    licence_name: Deepseek License
+    licence_url: https://github.com/deepseek-ai/deepseek-coder/blob/main/LICENSE-MODEL
+    chat_template:
+      "You are an exceptionally intelligent coding assistant that consistently delivers accurate and reliable responses to user instructions.\n
+      {% for message in messages %}
+      {% if (message['role'] == 'user') != (loop.index0 % 2 == 0) %}{{ raise_exception('Conversation roles must alternate user/assistant/user/assistant/...') }}{% endif %}{% if message['role'] == 'user' %}
+      {{ '\n@@ Instruction:\n' + message['content'] + '\n@@ Response:\n' }}
+      {% elif message['role'] == 'assistant' %}{{ message['content'] + '\n' }}
+      {% else %}{{ raise_exception('Only user and assistant roles are supported!') }}
+      {% endif %}
+      {% endfor %}"
+  <<: *magicoder-series
+  provider_url: https://huggingface.co/TheBloke/Magicoder-S-DS-6.7B-GGUF
+  urls:
+  - https://huggingface.co/TheBloke/Magicoder-S-DS-6.7B-GGUF/resolve/main/magicoder-s-ds-6.7b.Q5_K_M.gguf
+  sha256: beaf8675e2e3bbb494903d974a54c7f369384a02d8cfff0a959999c4033026a0
+
